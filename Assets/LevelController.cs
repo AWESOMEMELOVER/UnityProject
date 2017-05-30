@@ -18,4 +18,12 @@ public class LevelController : MonoBehaviour {
 		current = this;
 	}
 
+	public void addCoin(int coins){
+		Debug.Log (coins);
+	}
+	public void addFruit(int coins){
+		Debug.Log (coins);
+	}
+
+
 }

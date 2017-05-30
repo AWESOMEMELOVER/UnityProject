@@ -11,6 +11,8 @@ public class HeroRabit : MonoBehaviour {
 	float JumpTime = 0f;
 	public float MaxJumpTime = 2f;
 	public float JumpSpeed = 2f;
+	Transform heroParent = null;
+	public bool isLeveledUp = false;
 
 	// Use this for initialization
 	void Start () {
@@ -53,6 +55,18 @@ public class HeroRabit : MonoBehaviour {
 		} else {
 			animator.SetBool ("jump", true);
 		}
+		if(hit) {
+			//Перевіряємо чи ми опинились на платформі
+			if(hit.transform != null
+				&& hit.transform.GetComponent<MovingPlatform>() != null){
+				//Приліпаємо до платформи
+				SetNewParent(this.transform, hit.transform);
+			}
+		} else {
+			//Ми в повітрі відліпаємо під платформи
+			SetNewParent(this.transform, this.heroParent);
+		}
+
 	}
 	
 	// Update is called once per frame
@@ -77,6 +91,31 @@ public class HeroRabit : MonoBehaviour {
 		} else if(value > 0) {
 			sr.flipX = false;
 		}
-	
+
 }
+	public void levelUp(){
+		if (!isLeveledUp) {
+			isLeveledUp = true;
+			transform.localScale = Vector3.one * 1.5f;
+		}
+	}
+
+	public void levelDown(){
+		transform.localScale = Vector3.one / 1.5f;
+	}
+
+
+	static void SetNewParent(Transform obj, Transform new_parent) {
+		if(obj.transform.parent != new_parent) {
+			//Засікаємо позицію у Глобальних координатах
+			Vector3 pos = obj.transform.position;
+			//Встановлюємо нового батька
+			obj.transform.parent = new_parent;
+			//Після зміни батька координати кролика зміняться
+			//Оскільки вони тепер відносно іншого об’єкта
+			//повертаємо кролика в ті самі глобальні координати
+			obj.transform.position = pos;
+		}
+	}
+
 }
