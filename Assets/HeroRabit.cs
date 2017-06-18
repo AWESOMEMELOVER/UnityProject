@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HeroRabit : MonoBehaviour {
 
+	public static HeroRabit lastRabit = null;
 	public float speed = 20;
 	Rigidbody2D myBody = null;
 	bool isGrounded = false;
@@ -13,6 +14,11 @@ public class HeroRabit : MonoBehaviour {
 	public float JumpSpeed = 2f;
 	Transform heroParent = null;
 	public bool isLeveledUp = false;
+
+
+	void Awake(){
+		lastRabit = this;
+	}
 
 	// Use this for initialization
 	void Start () {
